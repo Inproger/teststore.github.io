@@ -28,7 +28,8 @@ function saveBalance() {
     localStorage.setItem("balance", balance);
     updateUI();
     document.getElementById("topupAmount").value = "";
-    showToast("Balans artırıldı! ✅");
+    showToast("Balans artırıldı! 💰");
+    setTimeout(toggleBalanceModal, 500); // 0.5 saniyə sonra modalı bağla
 }
 
 function showToast(msg) {
@@ -36,14 +37,26 @@ function showToast(msg) {
     toast.className = "toast";
     toast.innerText = msg;
     document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 2000);
+    setTimeout(() => toast.remove(), 2500);
 }
 
-function addToCart(name, price) {
+function addToCart(name, price, img) {
     let item = cart.find(p => p.name === name);
-    item ? item.qty++ : cart.push({ name, price, qty: 1 });
+    item ? item.qty++ : cart.push({ name, price, img, qty: 1 });
     localStorage.setItem("cart", JSON.stringify(cart));
     showToast("Səbətə əlavə olundu! 🛒");
+}
+
+let searchTimeout;
+function searchProduct() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        let input = document.querySelector(".search").value.toLowerCase();
+        document.querySelectorAll(".product").forEach(p => {
+            let name = p.getAttribute("data-name").toLowerCase();
+            p.style.display = name.includes(input) ? "block" : "none";
+        });
+    }, 300);
 }
 
 window.onload = updateUI;

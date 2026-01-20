@@ -1,14 +1,15 @@
-/* SƏNİN KODLARIN */
+/* ƏSAS STİLLƏR */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", sans-serif;
-  -webkit-tap-highlight-color: transparent; /* Mobil toxunuş kölgəsini silir */
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
   background: #f4f7fb;
+  color: #333;
 }
 
 /* NAVBAR */
@@ -20,30 +21,15 @@ body {
   gap: 15px;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.logo {
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-}
+.logo { color: white; font-size: 22px; font-weight: bold; }
+.search { flex: 1; padding: 10px; border-radius: 8px; border: none; outline: none; }
 
-.search {
-  flex: 1;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-}
+.user-controls { display: flex; align-items: center; gap: 15px; }
 
-.user-controls {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-/* Yeni Balans Düyməsi */
 .balance-badge {
   background: rgba(255, 255, 255, 0.2);
   color: white;
@@ -58,15 +44,8 @@ body {
   gap: 5px;
 }
 
-.balance-badge:hover {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.cart-link {
-  color: white;
-  font-size: 22px;
-  text-decoration: none;
-}
+.balance-badge:hover { background: rgba(255, 255, 255, 0.3); }
+.cart-link { color: white; font-size: 22px; text-decoration: none; }
 
 /* BANNER */
 .banner {
@@ -80,26 +59,17 @@ body {
 .modal {
   display: none;
   position: fixed;
-  top: 0; 
-  left: 0; 
-  width: 100%; 
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  justify-content: center; 
-  align-items: center;
-  z-index: 1000;
+  justify-content: center; align-items: center;
+  z-index: 2000;
   padding: 15px;
 }
 
 .modal-content {
-  background: white; 
-  padding: 30px; 
-  border-radius: 15px;
-  width: 100%; 
-  max-width: 400px; 
-  text-align: center;
-  position: relative; 
-  animation: slideIn 0.3s ease-out;
+  background: white; padding: 30px; border-radius: 25px;
+  width: 100%; max-width: 400px; text-align: center;
+  position: relative; animation: slideIn 0.3s ease-out;
 }
 
 @keyframes slideIn {
@@ -107,136 +77,88 @@ body {
   to { transform: translateY(0); opacity: 1; }
 }
 
-.close {
-  position: absolute; 
-  right: 20px; 
-  top: 10px; 
-  font-size: 24px; 
-  cursor: pointer;
-  color: #666;
-}
+.close { position: absolute; right: 20px; top: 15px; font-size: 24px; cursor: pointer; color: #666; }
+.input-group { margin: 20px 0; display: flex; gap: 10px; }
+.input-group input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; font-size: 16px; }
 
-.input-group {
-  margin: 20px 0; 
-  display: flex; 
-  gap: 10px;
-}
+.quick-amounts { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.quick-amounts button { background: #f0f2f5; color: #333; border: 1px solid #ddd; padding: 8px 15px; width: auto; font-size: 13px; }
 
-.input-group input {
-  flex: 1; 
-  padding: 12px; 
-  border: 1px solid #ddd; 
-  border-radius: 8px;
-  outline: none;
-  font-size: 16px; /* Mobildə zoom olmaması üçün */
-}
-
-.quick-amounts {
-  display: flex; 
-  gap: 10px; 
-  justify-content: center; 
-  margin-top: 10px;
-  flex-wrap: wrap;
-}
-
-.quick-amounts button {
-  background: #f0f2f5; 
-  color: #333; 
-  border: 1px solid #ddd; 
-  font-size: 12px;
-  padding: 8px 12px;
-  width: auto;
-}
-
-/* PRODUCTS */
+/* MƏHSULLAR */
 .products {
   padding: 30px;
   display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(220px,1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
 }
 
 .product {
-  background: white;
-  border-radius: 15px;
-  padding: 15px;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-  transition: 0.3s;
+  background: white; border-radius: 15px; padding: 15px;
+  text-align: center; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between;
 }
 
-.product img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.price {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-  color: #1e88e5;
-  margin: 10px 0;
-}
+.product:hover { transform: translateY(-5px); }
+.product img { width: 100%; height: 160px; object-fit: cover; border-radius: 10px; transition: 0.3s; }
+.price { display: block; font-size: 18px; font-weight: bold; color: #1e88e5; margin: 10px 0; }
 
 button {
-  width: 100%;
-  padding: 12px;
-  background: #1e88e5;
-  border: none;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.2s;
-  font-weight: bold;
+  width: 100%; padding: 12px; background: #1e88e5; border: none;
+  color: white; border-radius: 10px; cursor: pointer; font-weight: bold; transition: 0.2s;
 }
 
-/* MOBİL ÜÇÜN ƏLAVƏLƏR (RESPONSIVE) */
+button:hover { background: #1565c0; }
+
+/* SƏBƏT SƏHİFƏSİ (YENİLƏNDİ) */
+.cart-container { padding: 20px; max-width: 800px; margin: 0 auto; }
+.cart-item {
+  background: white; padding: 15px; border-radius: 18px;
+  margin-bottom: 15px; display: flex; align-items: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.cart-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 10px; margin-right: 15px; }
+
+.item-info { flex: 1; }
+.item-info h4 { font-size: 16px; margin-bottom: 5px; }
+.item-actions { display: flex; align-items: center; gap: 10px; }
+
+.qty-control {
+  background: #f0f4f8; border-radius: 10px; padding: 5px;
+  display: flex; align-items: center; gap: 10px;
+}
+
+.qty-control button { width: 30px; height: 30px; background: white; color: #1e88e5; padding: 0; }
+.del-btn { background: none; color: #e53935; font-size: 20px; width: auto; }
+
+.cart-summary {
+  background: white; padding: 20px; border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 20px;
+}
+
+/* MOBİL ÜÇÜN ÖZƏL (RESPONSIVE) */
 @media (max-width: 600px) {
-  .navbar {
-    padding: 10px 15px;
-    flex-wrap: wrap;
-  }
-  .logo { font-size: 18px; }
-  .search { order: 3; width: 100%; margin-top: 5px; }
+  .navbar { padding: 10px 15px; }
   .products {
-    padding: 15px;
-    grid-template-columns: 1fr 1fr; /* Mobildə yan-yana iki məhsul */
-    gap: 10px;
+    grid-template-columns: 1fr 1fr;
+    padding: 10px; gap: 10px;
   }
   .product { padding: 10px; }
   .product img { height: 120px; }
-  .product h3 { font-size: 14px; }
-  .balance-badge { padding: 5px 10px; font-size: 12px; }
+  .product h3 { font-size: 14px; min-height: 40px; }
+  
+  .cart-summary {
+    position: fixed; bottom: 0; left: 0; width: 100%;
+    border-radius: 25px 25px 0 0; z-index: 1001;
+  }
+  body { padding-bottom: 180px; } /* Səbət summary üçün yer */
 }
 
-/* TOAST (Bildiriş) */
+/* TOAST */
 .toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-size: 14px;
-  z-index: 10000;
-  animation: fadeOut 2s forwards;
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #333; color: white; padding: 10px 20px;
+  border-radius: 25px; font-size: 14px; z-index: 10000;
+  animation: fadeOut 2.5s forwards;
 }
-
-@keyframes fadeOut {
-  0% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-/* Digər sənə aid olan stillər (Footer, Payment və s.) eynilə qalır */
-.cart-title { text-align: center; margin: 20px 0; }
-.qty-box { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
-.qty-box button { width: 35px; height: 35px; padding: 0; font-size: 18px; background: #eee; color: #333; }
-.remove-btn { background: #e53935; margin-top: 10px; }
-.total-box { text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
-.payment { max-width: 400px; margin: 0 auto 40px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-footer { background: #1e88e5; color: white; text-align: center; padding: 15px; }
+@keyframes fadeOut { 0%, 80% { opacity: 1; } 100% { opacity: 0; } }

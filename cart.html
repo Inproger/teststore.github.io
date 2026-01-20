@@ -9,33 +9,31 @@
 <body>
 
 <header class="navbar">
-  <a class="back-btn" href="index.html">⬅ Geri</a>
-  <div class="logo">Səbət</div>
+  <a class="back-btn" href="index.html" style="color:white; text-decoration:none;">⬅ Geri</a>
+  <div class="logo">Səbətim</div>
   <div style="width: 50px;"></div>
 </header>
 
 <main class="cart-container">
   <div id="cartItems"></div>
   
-  <div class="cart-summary">
-    <div class="total-row">
+  <div class="cart-summary" id="cartSummary">
+    <div class="total-row" style="display:flex; justify-content:space-between; font-weight:bold; font-size:20px; margin-bottom:15px;">
       <span>Cəmi:</span>
       <span class="total-price"><span id="totalPrice">0</span> AZN</span>
     </div>
 
     <div class="payment-methods">
-      <h3>Ödəniş Metodu</h3>
-      <label class="pay-option">
-        <input type="radio" name="pay" checked>
-        <span class="pay-text">💳 Bank Kartı</span>
+      <h3 style="margin-bottom:10px;">Ödəniş Metodu</h3>
+      <label class="pay-option" style="display:block; margin-bottom:10px; cursor:pointer;">
+        <input type="radio" name="pay" checked> 💳 Bank Kartı
       </label>
-      <label class="pay-option">
-        <input type="radio" name="pay" id="payWithBalance">
-        <span class="pay-text">🪙 Balansla Ödə</span>
+      <label class="pay-option" style="display:block; margin-bottom:20px; cursor:pointer;">
+        <input type="radio" name="pay" id="payWithBalance"> 🪙 Balansla Ödə
       </label>
     </div>
 
-    <button class="checkout-btn" onclick="checkout()">Sifarişi Tamamla</button>
+    <button class="checkout-btn" onclick="checkout()" style="background:#1e88e5; font-size:18px; padding:15px;">Ödənişi Tamamla</button>
   </div>
 </main>
 
@@ -44,20 +42,30 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function renderCart() {
   const container = document.getElementById("cartItems");
+  const summary = document.getElementById("cartSummary");
   let total = 0;
   container.innerHTML = "";
 
   if (cart.length === 0) {
-    container.innerHTML = "<div class='empty-msg'>Səbətiniz boşdur ☹️</div>";
+    container.innerHTML = `
+      <div style="text-align:center; padding:50px;">
+        <div style="font-size:60px;">🛒</div>
+        <p style="margin-top:15px; color:#666;">Səbətiniz boşdur.</p>
+        <a href="index.html" style="display:inline-block; margin-top:20px; color:#1e88e5; text-decoration:none; font-weight:bold;">Alış-verişə davam et</a>
+      </div>`;
+    summary.style.display = "none";
+    return;
   }
 
+  summary.style.display = "block";
   cart.forEach((item, index) => {
     total += item.price * item.qty;
     container.innerHTML += `
       <div class="cart-item">
+        <img src="${item.img}" alt="">
         <div class="item-info">
           <h4>${item.name}</h4>
-          <p>${item.price} AZN</p>
+          <p style="color:#1e88e5; font-weight:bold;">${item.price} AZN</p>
         </div>
         <div class="item-actions">
           <div class="qty-control">
@@ -67,48 +75,42 @@ function renderCart() {
           </div>
           <button class="del-btn" onclick="removeItem(${index})">🗑️</button>
         </div>
-      </div>
-    `;
+      </div>`;
   });
-  document.getElementById("totalPrice").innerText = total;
+  document.getElementById("totalPrice").innerText = total.toFixed(2);
 }
 
 function changeQty(index, val) {
   cart[index].qty += val;
   if (cart[index].qty <= 0) cart.splice(index, 1);
-  saveAndRender();
+  save();
 }
 
 function removeItem(index) {
   cart.splice(index, 1);
-  saveAndRender();
+  save();
 }
 
-function saveAndRender() {
+function save() {
   localStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
 }
 
 function checkout() {
-  if (cart.length === 0) return alert("Səbət boşdur!");
-
   let total = parseFloat(document.getElementById("totalPrice").innerText);
   let useBalance = document.getElementById("payWithBalance").checked;
   let currentBal = parseFloat(localStorage.getItem("balance")) || 0;
 
   if (useBalance) {
     if (currentBal < total) {
-      let go = confirm("Balansda pul yoxdur! Hazırkı balans: " + currentBal + " AZN. Balans əlavə etmək istəyirsiniz?");
-      if (go) location.href = "index.html";
+      if(confirm("Balansda pul yoxdur! Balans əlavə etməyə gedək?")) location.href="index.html";
       return;
     }
-    currentBal -= total;
-    localStorage.setItem("balance", currentBal);
-    alert("Ödəniş uğurla tamamlandı! Qalıq balans: " + currentBal.toFixed(2) + " AZN");
+    localStorage.setItem("balance", currentBal - total);
+    alert("Ödəniş uğurla tamamlandı! ✅");
   } else {
     alert("Sifarişiniz qəbul edildi! ✅");
   }
-
   localStorage.removeItem("cart");
   location.href = "index.html";
 }

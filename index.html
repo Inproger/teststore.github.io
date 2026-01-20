@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Test Store | Android Edition</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">Test Store</div>
+  <div class="user-controls">
+    <div class="balance-badge" onclick="toggleBalanceModal()">
+      <span>💳</span> <span id="userBalance">0.00</span> AZN
+    </div>
+    <a class="cart-link" href="cart.html">🛒</a>
+  </div>
+</header>
+
+<div class="search-bar">
+  <input class="search" type="text" placeholder="Məhsul axtar..." onkeyup="searchProduct()">
+</div>
+
+<section class="banner">
+  <h2>Xüsusi Təkliflər 🔥</h2>
+  <p>Mobil tətbiq rahatlığında alış-veriş</p>
+</section>
+
+<div id="balanceModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="toggleBalanceModal()">&times;</span>
+    <h3>💳 Balansı Artır</h3>
+    <p>Hazırkı balans: <strong><span id="modalBalance">0.00</span> AZN</strong></p>
+    <div class="input-group">
+      <input type="number" id="topupAmount" placeholder="Məbləğ">
+      <button onclick="addBalance()">Yüklə</button>
+    </div>
+    <div class="quick-amounts">
+      <button onclick="quickAdd(5)">+5</button>
+      <button onclick="quickAdd(10)">+10</button>
+      <button onclick="quickAdd(20)">+20</button>
+      <button onclick="quickAdd(50)">+50</button>
+    </div>
+  </div>
+</div>
+
+<main class="products">
+  <div class="product" data-name="ağıllı saat">
+    <div class="img-container"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"></div>
+    <h3>Ağıllı Saat</h3>
+    <span class="price">49 AZN</span>
+    <button onclick="addToCart('Ağıllı Saat', 49)">Səbətə at</button>
+  </div>
+  <div class="product" data-name="bluetooth qulaqlıq">
+    <div class="img-container"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"></div>
+    <h3>Bluetooth Qulaqlıq</h3>
+    <span class="price">29 AZN</span>
+    <button onclick="addToCart('Bluetooth Qulaqlıq', 29)">Səbətə at</button>
+  </div>
+  <div class="product" data-name="powerbank">
+    <div class="img-container"><img src="https://images.unsplash.com/photo-1609091839311-d53683a0ad3b?w=400"></div>
+    <h3>Powerbank</h3>
+    <span class="price">39 AZN</span>
+    <button onclick="addToCart('Powerbank', 39)">Səbətə at</button>
+  </div>
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>

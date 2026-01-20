@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Səbətim | Test Store</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <a class="back-btn" href="index.html">⬅ Geri</a>
+  <div class="logo">Səbət</div>
+  <div style="width: 50px;"></div>
+</header>
+
+<main class="cart-container">
+  <div id="cartItems"></div>
+  
+  <div class="cart-summary">
+    <div class="total-row">
+      <span>Cəmi:</span>
+      <span class="total-price"><span id="totalPrice">0</span> AZN</span>
+    </div>
+
+    <div class="payment-methods">
+      <h3>Ödəniş Metodu</h3>
+      <label class="pay-option">
+        <input type="radio" name="pay" checked>
+        <span class="pay-text">💳 Bank Kartı</span>
+      </label>
+      <label class="pay-option">
+        <input type="radio" name="pay" id="payWithBalance">
+        <span class="pay-text">🪙 Balansla Ödə</span>
+      </label>
+    </div>
+
+    <button class="checkout-btn" onclick="checkout()">Sifarişi Tamamla</button>
+  </div>
+</main>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function renderCart() {
+  const container = document.getElementById("cartItems");
+  let total = 0;
+  container.innerHTML = "";
+
+  if (cart.length === 0) {
+    container.innerHTML = "<div class='empty-msg'>Səbətiniz boşdur ☹️</div>";
+  }
+
+  cart.forEach((item, index) => {
+    total += item.price * item.qty;
+    container.innerHTML += `
+      <div class="cart-item">
+        <div class="item-info">
+          <h4>${item.name}</h4>
+          <p>${item.price} AZN</p>
+        </div>
+        <div class="item-actions">
+          <div class="qty-control">
+            <button onclick="changeQty(${index},-1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="changeQty(${index},1)">+</button>
+          </div>
+          <button class="del-btn" onclick="removeItem(${index})">🗑️</button>
+        </div>
+      </div>
+    `;
+  });
+  document.getElementById("totalPrice").innerText = total;
+}
+
+function changeQty(index, val) {
+  cart[index].qty += val;
+  if (cart[index].qty <= 0) cart.splice(index, 1);
+  saveAndRender();
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  saveAndRender();
+}
+
+function saveAndRender() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function checkout() {
+  if (cart.length === 0) return alert("Səbət boşdur!");
+
+  let total = parseFloat(document.getElementById("totalPrice").innerText);
+  let useBalance = document.getElementById("payWithBalance").checked;
+  let currentBal = parseFloat(localStorage.getItem("balance")) || 0;
+
+  if (useBalance) {
+    if (currentBal < total) {
+      let go = confirm("Balansda pul yoxdur! Hazırkı balans: " + currentBal + " AZN. Balans əlavə etmək istəyirsiniz?");
+      if (go) location.href = "index.html";
+      return;
+    }
+    currentBal -= total;
+    localStorage.setItem("balance", currentBal);
+    alert("Ödəniş uğurla tamamlandı! Qalıq balans: " + currentBal.toFixed(2) + " AZN");
+  } else {
+    alert("Sifarişiniz qəbul edildi! ✅");
+  }
+
+  localStorage.removeItem("cart");
+  location.href = "index.html";
+}
+
+renderCart();
+</script>
+</body>
+</html>
